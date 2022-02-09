@@ -53,7 +53,7 @@ jobs:
           context: .
           push: true
           tags: openhackp703ii32acr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_8f4145f4ee4e4b929a7506c286d717ce }}/devopsoh/api-userprofile:${{ github.sha }}
-          file: ./Dockerfile
+          file: Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
