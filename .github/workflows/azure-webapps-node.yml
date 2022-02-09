@@ -39,8 +39,13 @@ jobs:
 # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
         
       - uses: actions/setup-node@v1
+
+
 # Runs functional tests
       - name: npm install, build, and test
         run: |
