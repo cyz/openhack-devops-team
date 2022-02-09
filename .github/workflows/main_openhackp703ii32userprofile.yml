@@ -1,51 +1,36 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 
-name: Build and deploy container app to Azure Web App - openhackp703ii32userprofile
-
+name: Node.js Continuous Integration
+# Controls when the action will run. 
 on:
+  # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches:
-      - main
+    branches: [ main, testing ]
+    paths:
+      - 'apis/userprofile/**'
+
+# Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # This workflow contains a single job called "build"
   build:
-    runs-on: 'ubuntu-latest'
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
-
-    - name: Log in to registry
-      uses: docker/login-action@v1
-      with:
-        registry: https://openhackp703ii32acr.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_47fe3dc24cc34fa29339456007fa31bf }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_117d79083b71400ab7cc23989d7c91a7 }}
-
-    - name: Build and push container image to registry
-      uses: docker/build-push-action@v2
-      with:
-        push: true
-        tags: openhackp703ii32acr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_47fe3dc24cc34fa29339456007fa31bf }}/devopsoh/api-userprofile:${{ github.sha }}
-        file: ./Dockerfile
-
-  deploy:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    defaults:
+      run:
+       shell: bash
+       working-directory: apis/userprofile
+    strategy:
+      matrix:
+        node-version: [12.x]
 
+# Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: Deploy to Azure Web App
-      id: deploy-to-webapp
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'openhackp703ii32userprofile'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_523fea0cebdd4581ab524563468e997f }}
-        images: 'openhackp703ii32acr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_47fe3dc24cc34fa29339456007fa31bf }}/devopsoh/api-userprofile:${{ github.sha }}'
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+# Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+        
