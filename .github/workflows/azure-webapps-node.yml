@@ -87,5 +87,5 @@ jobs:
         with:
           app-name: 'openhackp703ii32userprofile'
           slot-name: 'production'
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_86bf552904444e97953aaa7afcd9400e }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_523FEA0CEBDD4581AB524563468E997F }}
           images: 'openhackp703ii32acr.azurecr.io/${{ secrets.USERCYZ }}/openhackp703ii32acr/devopsoh/api-userprofile:${{ github.sha }}'
