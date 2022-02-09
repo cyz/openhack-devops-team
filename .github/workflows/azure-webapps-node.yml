@@ -1,6 +1,6 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 
-name: JS New
+name: One More Test
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
@@ -47,15 +47,15 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: https://openhackp703ii32acr.azurecr.io/
-          username: ${{ secrets.AzureAppService_ContainerUsername_f173791ee49f45b782ea5efb31d3becb }}
-          password: ${{ secrets.AzureAppService_ContainerPassword_ae49841da9894ae0ba04edea4d48bb0c }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
 
       - name: Build and push container image to registry
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: openhackp703ii32acr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_f173791ee49f45b782ea5efb31d3becb }}/openhackp703ii32acr/devopsoh/api-userprofile:${{ github.sha }}
+          tags: openhackp703ii32acr.azurecr.io/${{ secrets.USERNAME }}/openhackp703ii32acr/devopsoh/api-userprofile:${{ github.sha }}
           file: ./Dockerfile
         
       - uses: actions/setup-node@v1
@@ -88,4 +88,4 @@ jobs:
           app-name: 'openhackp703ii32userprofile'
           slot-name: 'production'
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_86bf552904444e97953aaa7afcd9400e }}
-          images: 'openhackp703ii32acr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_f173791ee49f45b782ea5efb31d3becb }}/openhackp703ii32acr/devopsoh/api-userprofile:${{ github.sha }}'
+          images: 'openhackp703ii32acr.azurecr.io/${{ secrets.USERNAME }}/openhackp703ii32acr/devopsoh/api-userprofile:${{ github.sha }}'
